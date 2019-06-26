@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title>RobolaX</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div class="content" id="content">
+            <img class="backGround" src="src/MainMenuBackGround.gif">
+            <div class="mainMenu" id="mainMenu">
+                <div class="singlePlayer">
+                    <img src="src/UI/singleplayer.png" class="singlePlayerImg" onclick="singlePlayerMenu()">
+                </div>
+                <div class="multiPlayer">
+                    <img src="src/UI/multiplayer.png" class="multiPlayerImg" onclick="multiPlayerMenu()">
+                </div>
+                <div class="settings">
+                    <img src="src/UI/settings.png" class="settingsImg" onclick="settingsMenu()">
+                </div>
+                <div class="help">
+                    <img src="src/UI/help.png" class="helpImg" onclick="helpMenu()">
+                </div>
+            </div>
+            <div class="singlePlayerMenu" id="singlePlayerMenu">
+                <div class="startSinglePlayerGame">
+                    <img src="src/UI/newGame.png" class="startSinglePlayerGameImg" onclick="startSinglePlayerGame()">
+                </div>
+                <div class="loadSinglePlayerGame">
+                    <img src="src/UI/loadGame.png" class="loadSinglePlayerGameImg" onclick="loadSinglePlayerGame()">
+                </div>
+                <div class="singlePlayerMenuBack">
+                    <img src="src/UI/back.png" class="singlePlayerMenuBackImg" onclick="singlePlayerMenuBack()">
+                </div>
+            </div>
+        </div>
+        <canvas id="gameCanvas">Обновите браузер!</canvas>
+    </body>
+</html>

@@ -1,0 +1,258 @@
+*{
+    margin:0;
+    overflow: hidden;
+}
+
+@font-face {
+    font-family: Alice;
+    src: url(fonts/Alice-Regular.ttf);
+}
+
+canvas{
+    display:none;
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.content{
+    width:100%;
+    height:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: -1000;
+}
+
+.backGround{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: -1000;
+}
+
+.mainMenu{
+    width:500px;
+    height:600px;
+    position:absolute;
+    top:100px;
+    left:50%;
+    margin-left:-250px;
+    z-index:0;
+}
+
+.singlePlayer{
+    width:100%;
+    height:105px;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+}
+
+.singlePlayerImg{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.singlePlayerImg:hover{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:5px;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.multiPlayer{
+    width:100%;
+    height:105px;
+    position:absolute;
+    top:150px;
+    left:0;
+    z-index: 1;
+}
+
+.multiPlayerImg{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.multiPlayerImg:hover{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:5px;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.settings{
+    width:100%;
+    height:105px;
+    position:absolute;
+    top:300px;
+    left:0;
+    z-index: 1;
+}
+
+.settingsImg{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.settingsImg:hover{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:5px;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.help{
+    width:100%;
+    height:105px;
+    position:absolute;
+    top:450px;
+    left:0;
+    z-index: 1;
+}
+
+.helpImg{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.helpImg:hover{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:5px;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.singlePlayerMenu{
+    display:none;
+    width:500px;
+    height:600px;
+    position:absolute;
+    top:100px;
+    left:50%;
+    margin-left:-250px;
+    z-index:0;
+}
+
+.startSinglePlayerGame{
+    width:100%;
+    height:105px;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+}
+
+.startSinglePlayerGameImg{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.startSinglePlayerGameImg:hover{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:5px;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.loadSinglePlayerGame{
+    width:100%;
+    height:105px;
+    position:absolute;
+    top:150px;
+    left:0;
+    z-index: 1;
+}
+
+.loadSinglePlayerGameImg{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.loadSinglePlayerGameImg:hover{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:5px;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.singlePlayerMenuBack{
+    width:100%;
+    height:105px;
+    position:absolute;
+    top:300px;
+    left:0;
+    z-index: 1;
+}
+
+.singlePlayerMenuBackImg{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
+
+.singlePlayerMenuBackImg:hover{
+    width:500px;
+    height:100px;
+    position: absolute;
+    top:5px;
+    left:0;
+    z-index:10;
+    cursor: pointer;
+}
