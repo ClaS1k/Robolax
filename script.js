@@ -32,9 +32,17 @@ function generateWorld(){
     this.world=Array();
     this.genChunk=function(type){
         //функция генерации чанка
-        let chunk=Array();
+        let chunk=Array(625);
         switch (type){
-            
+            case 'air':
+                let i=0;
+                while (i<625){
+                    chunk[i]=0;
+                    i++;
+                }
+            break;
+            case 'forest':
+            break;
         }
         return chunk;
     }
