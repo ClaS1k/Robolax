@@ -6,8 +6,10 @@ function block(id, texture, touchble){
     //конструктор объекта блока
     this.id=id;
     this.touchble=touchble;
-    this.texture=new Image();
-    this.texture.src=texture;
+    if (texture!=null){
+        this.texture=new Image();
+        this.texture.src=texture;
+    }
 }
 
 function gameInit(){
@@ -16,8 +18,12 @@ function gameInit(){
     var ctx=canvas.getContext('2d');
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
-    var blocks=Array();
+    var blocks=Array(50);
     //загружаем текстуры блоков
+    blocks[0]=new block(0, null, false);
+    blocks[1]=new block(1, "src/blocks/grass.png", true);
+    blocks[2]=new block(2, "src/blocks/dirt.png", true);
+    blocks[3]=new block(3, "src/blocks/stone.png", true);
 }
 
 function getRandom(min, max) {
@@ -42,6 +48,32 @@ function generateWorld(){
                 }
             break;
             case 'forest':
+                let i=0;
+                while (i<625){
+                    if (i<50){
+                        chunk[i]=0;
+                    }
+                    if (i>=50 && i<75){
+                        chunk[i]=getRandom(0, 1);
+                    }
+                    if (i>=75 && i<100){
+                        if (chunk[i-25]!=0){
+                            chunk[i]=1;
+                        }else{
+                            chunk[i]=getRandom(0, 1);
+                        }
+                    }
+                    if (i>=100 && i<125){
+                        chunk[i]=1;
+                    }
+                    if (i>=125 && i<175){
+                        chunk[i]=2;
+                    }
+                    if (i>=175){
+                        chunk[i]=3;
+                    }
+                    i++;
+                }
             break;
         }
         return chunk;
