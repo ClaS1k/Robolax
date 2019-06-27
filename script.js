@@ -1,5 +1,10 @@
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawWorld();
+}
+
+function drawWorld(){
+
 }
 
 function block(id, texture, touchble){
@@ -14,8 +19,8 @@ function block(id, texture, touchble){
 
 function gameInit(){
     //инициализация игры
-    var canvas=document.getElementById('gameCanvas');
-    var ctx=canvas.getContext('2d');
+    window.canvas=document.getElementById('gameCanvas');
+    window.ctx=canvas.getContext('2d');
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
     var blocks=Array(50);
@@ -31,24 +36,39 @@ function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generateWorld(){
+function World(){
     //генерация мира
     this.gravity=1;
     this.backGround=getRandom(1, 5);
     this.world=Array();
+    this.buildWorld=function(){
+        let j=0;
+        while (j<10000){
+            if (j<1500){
+                this.world[j]=this.genChunk('air');
+            }
+            if (j>=1500 && j<2000){
+                this.world[j]=this.genChunk('forest');
+            }
+            if (j>=2000){
+                this.world[j]=this.genChunk('underground');
+            }
+            j++;
+        }
+    }
     this.genChunk=function(type){
         //функция генерации чанка
         let chunk=Array(625);
         switch (type){
             case 'air':
-                let i=0;
+                var i=0;
                 while (i<625){
                     chunk[i]=0;
                     i++;
                 }
             break;
             case 'forest':
-                let i=0;
+                var i=0;
                 while (i<625){
                     if (i<50){
                         //первые два ряда блоков
@@ -83,6 +103,14 @@ function generateWorld(){
                     i++;
                 }
             break;
+            case 'underground':
+                //Всё, что под землёй
+                var i=0;
+                while (i<625){
+                    chunk[i]=3;
+                    i++;
+                }
+            break;
         }
         return chunk;
     }
@@ -90,14 +118,12 @@ function generateWorld(){
 
 function startSinglePlayerGame(){
     //начало новой одиночной игры
-    document.getElementById('content').style.display="none";
     gameInit();
+    document.getElementById('content').style.display="none";
     canvas.style.display="block";
-    var world=generateWorld();
-}
-
-function loadSinglePlayerGame(){
-    //code
+    window.world=new World();
+    world.buildWorld();
+    var interval=setInterval(draw, 30);
 }
 
 function singlePlayerMenuBack(){
