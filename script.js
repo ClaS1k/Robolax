@@ -4,7 +4,30 @@ function draw(){
 }
 
 function drawWorld(){
-
+    let i=0;
+    let x=0;
+    let y=0;
+    let count=0;
+    while (i<625){
+        if (count==25){
+            count=0;
+            y+=25;
+            x=0;
+        }
+        let bid=world.world[1600][i];
+        if (bid!=0){
+            ctx.beginPath();
+            ctx.drawImage(blocks[bid].texture, x, y, 25, 25);
+            ctx.closePath();
+            x+=25;
+            i++;
+            count++;
+        }else{
+            x+=25;
+            i++;
+            count++;
+        }
+    }
 }
 
 function block(id, texture, touchble){
@@ -23,7 +46,7 @@ function gameInit(){
     window.ctx=canvas.getContext('2d');
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
-    var blocks=Array(50);
+    window.blocks=Array(50);
     //загружаем текстуры блоков
     blocks[0]=new block(0, null, false);
     blocks[1]=new block(1, "src/blocks/grass.png", true);
