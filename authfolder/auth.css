@@ -1,0 +1,168 @@
+.Auth{
+    width:500px;
+    height:600px;
+    position:absolute;
+    top:100px;
+    left:50%;
+    margin-left:-250px;
+}
+
+.AuthHeader{
+	width:500px;
+	height: 100px;
+	display: flex;
+	justify-content: center;
+}
+
+#AuthHeader{
+	color: white;
+	width: 400px;
+	height: 75px;
+	border-radius: 10px;
+	border: 4px solid #1989B8;
+	text-align: center;
+	font-size: 54px;
+	background: linear-gradient(0deg, rgba(30,167,225,.7), rgba(53,186,243,.7));
+}
+
+a[id=TextAuth]{
+	line-height: 70px;
+}
+
+.FormAuth{
+	color: white;
+	width:500px;
+    height:500px;
+    display: flex;
+	justify-content: center;
+}
+
+
+form{
+	color: white;
+	width:400px;
+    height:270px;
+	display: inline-block;
+}
+
+input{
+	color: white;
+	margin-top: 20px;
+	margin-left: 4px;
+	width: 350px;
+	height: 45px;
+	font-size: 34px;
+	background: rgba(30,167,225,.7);
+	border: none;
+	border-radius: 10px;
+}
+input[id=pass]{
+	padding-left: 45px;
+	width: 351px;
+
+}
+
+input[id=login]{
+	padding-left: 45px;
+	color: white;
+	width: 352px;
+}
+
+input[id=authBTN]{
+	width: 392px;
+	height: 45px;
+}
+
+::-webkit-input-placeholder{
+	color: white;
+}
+
+.LogImgOfAuth, .KeyImgOfAuth{
+	height: 40px;
+	width: 40px;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+	margin-left: -175px;
+}
+
+.LogImgOfAuth{
+	margin-top: 25px;
+	background-image: url("../src/UI/auth/login.png");
+}
+
+.KeyImgOfAuth{
+	margin-top: 90px;
+	background-image: url("../src/UI/auth/key.png");
+}
+
+.TxtOfAuth{
+	height: 100px;
+	width: 500px;
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	font-size: 24px;
+	color: white;
+}
+
+#WidthOutReg{
+	margin-left: -80px;
+	cursor: pointer;
+	height: 25px;
+	/*cursor: pointer;*/
+}
+
+#DontKnow{
+	margin-top: 40px;
+	margin-left: -220px;
+	/*cursor: pointer;*/
+	height: 25px;
+	cursor: pointer;
+}
+
+#WidthOutReg:hover{
+	color: silver;
+}
+
+#DontKnow:hover{
+	color: silver;
+}
+
+.RegistrationBTNinAuthwindow{
+	margin-top: -310px;
+	padding-left: 50px;
+}
+
+.RegistrationBTNinAuthwindow button{
+	color: white;
+	margin-top: 20px;
+	margin-left: 4px;
+	width: 392px;
+	height: 45px;
+	font-size: 34px;
+	background: rgba(30,167,225,.7);
+	border: none;
+	border-radius: 10px;
+}
+
+.NotValid{
+	height: 55px;
+	width: 500px;
+	display: flex;
+	justify-content: center;
+	transition: 2s;
+}
+
+#NotValid{
+	height: 50px;
+	width: 390px;
+	display: none;
+	border-radius: 10px;
+	text-align: center;
+	line-height: 50px;
+	background: rgba(178, 34, 34, .6);
+	border: 1px solid rgba(255,0,0,.4);
+	font-size: 24px;
+}

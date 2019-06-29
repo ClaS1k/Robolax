@@ -1,0 +1,147 @@
+body{
+    margin: 0px;
+    background-image: url('../src/MainMenuBackGround.gif');
+}
+
+.Registration{
+    width:500px;
+    height:600px;
+    position:absolute;
+    margin-left:-250px;
+    left: 50%;
+    top: 100px;
+    display: block;
+}
+
+.RegHeader{
+    width:500px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+#RegHeader{
+    color: white;
+    width: 400px;
+    height: 75px;
+    border-radius: 10px;
+    border: 4px solid #1989B8;
+    text-align: center;
+    font-size: 54px;
+    background: linear-gradient(0deg, rgba(30,167,225,.7), rgba(53,186,243,.7));
+}
+
+a[id=TextReg]{
+    line-height: 70px;
+}
+
+.RegErrorBlock{
+    height: 55px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    transition: 2s;
+}
+
+#RegError{
+    height: 50px;
+    width: 390px;
+    display: none; /*<------ обяз убрать в none */
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    background: rgba(178, 34, 34, .6);
+    border: 1px solid rgba(255,0,0,.4);
+    font-size: 24px;
+    color: white;
+}
+
+#RegSuccess{
+    height: 50px;
+    width: 390px;
+    display: none; /*<------ обяз убрать в none */
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    background: rgba(0, 255, 0, .6);
+    border: 1px solid rgba(50, 205, 50,.4);
+    font-size: 24px;
+    color: white;
+}
+
+.FormReg{
+    color: white;
+    width:500px;
+    height:500px;
+    display: flex;
+    justify-content: center;
+}
+
+
+form{
+    color: white;
+    width:400px;
+    height:370px;
+    display: inline-block;
+}
+
+input{
+    color: white;
+    margin-top: 20px;
+    margin-left: 4px;
+    width: 347px;
+    height: 45px;
+    font-size: 34px;
+    background: rgba(30,167,225,.7);
+    border: none;
+    border-radius: 10px;
+}
+input[id=pass]{
+    width: 347px;
+    padding-left: 45px;
+}
+
+input[id=email]{
+    padding-left: 45px;
+}
+
+input[id=login]{
+    color: white;
+    width: 347px;
+    padding-left: 45px;
+}
+
+input[id=regBTN], input[id=RegBtnBack]{
+    width: 392px;
+    height: 45px;
+}
+
+
+::-webkit-input-placeholder{
+    color: white;
+}
+
+.LogImgOfReg, .KeyImgOfReg, .LinkImgOfReg{
+    height: 40px;
+    width: 40px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    margin-left: -175px;
+}
+
+.LogImgOfReg{
+    margin-top: 25px;
+    background-image: url("../src/UI/auth/login.png");
+}
+
+.LinkImgOfReg{
+    margin-top: 90px;
+    background-image: url("../src/UI/auth/hyperlink.png");
+}
+
+.KeyImgOfReg{
+    margin-top: 155px;
+    background-image: url("../src/UI/auth/key.png");
+}

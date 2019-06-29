@@ -51,7 +51,7 @@
             		<a class="LogImgOfAuth"></a>
             		<a class="KeyImgOfAuth"></a>
                	 <form method="post">
-             		<input type="text" id="login" name="username" placeholder="Login" required>
+             		<input type="text" id="login" name="username" placeholder="NickName" required>
                 	<input type="password" id="pass" name="password" placeholder="Password" required>
                 	<input type="submit" id="authBTN" name="authbtn" value="Войти">
 							<?php
@@ -104,11 +104,15 @@
                	 </form>
                	</div>
                		<div class="RegistrationBTNinAuthwindow">
-               			<button id="regBTN" onclick="">Зaрегистрироваться</button>
+               			<button id="regBTN" onclick="
+               			document.location.href = 'authfolder/registration.php';
+               			">Зaрегистрироваться</button>
                		</div>
                		<div class="TxtOfAuth">
-               			<a id="WidthOutReg" onclick="document.getElementById('Auth').style.display='none'; 
-													document.getElementById('mainMenu').style.display='block';">Продолжить без авторизации</a>
+               			<a id="WidthOutReg" onclick="
+               			document.getElementById('Auth').style.display='none'; 
+						document.getElementById('mainMenu').style.display='block';
+						">Продолжить без авторизации</a>
                			<a id="DontKnow" onclick="">Забыл пароль</a>
                		</div>
             </div>
