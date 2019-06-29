@@ -4,29 +4,103 @@ function draw(){
 }
 
 function drawWorld(){
+    let chunk=thisPlayer.getChunk();
+    //получаем чанк, в котором находится игрокc
+    let drawbleChunk=Array();
+    drawbleChunk.push(chunk-502);
+    drawbleChunk.push(chunk-501);
+    drawbleChunk.push(chunk-500);
+    drawbleChunk.push(chunk-499);
+    drawbleChunk.push(chunk-498);
+    drawbleChunk.push(chunk-2);
+    drawbleChunk.push(chunk-1);
+    drawbleChunk.push(chunk);
+    drawbleChunk.push(chunk+1);
+    drawbleChunk.push(chunk+2);
+    drawbleChunk.push(chunk+498);
+    drawbleChunk.push(chunk+499);
+    drawbleChunk.push(chunk+500);
+    drawbleChunk.push(chunk+501);
+    drawbleChunk.push(chunk+502);
+    drawbleChunk.push(chunk+503);
+    //составляем список рисуемых чанков
+    let x=canvas.width/2-1562.5;
+    let y=canvas.height/2-937.5;
+    //считаем стартовые координаты
+    let countChunk=0;
+    let countChunkY=0;
     let i=0;
-    let x=0;
-    let y=0;
-    let count=0;
-    while (i<625){
-        if (count==25){
-            count=0;
-            y+=25;
-            x=0;
-        }
-        let bid=world.world[1600][i];
-        if (bid!=0){
-            ctx.beginPath();
-            ctx.drawImage(blocks[bid].texture, x, y, 25, 25);
-            ctx.closePath();
+    while (i<=15){
+        let j=0;
+        let countBlock=0;
+        while (j<625){
+            if (countBlock==25){
+                y+=25;
+                x-=625;
+                countBlock=0;
+            }
+            let dChunk=drawbleChunk[i];
+            let blockId=world.world[dChunk][j];
+            if (blockId!=0){
+                let drawbleBlock=blocks[blockId];
+                ctx.beginPath();
+                ctx.drawImage(drawbleBlock.texture, x, y, 25, 25);
+                ctx.closePath();
+            }
             x+=25;
-            i++;
-            count++;
+            j++;
+            countBlock++;
+        }
+        countChunk++;
+        if (countChunk==6){
+            y+=625;
+            countChunkY+=1;
+            countChunk=0;
+            x=canvas.width/2-1562.5;
         }else{
-            x+=25;
-            i++;
-            count++;
+            x=canvas.width/2-1562.5+625*countChunk;
+            y=canvas.height/2-937.5+625*countChunkY;
         }
+        i++;
+    }
+}
+
+function player(x, y, texture){
+    this.x=x;
+    this.y=y;
+    this.texture=new Image();
+    this.texture.src=texture;
+    this.getChunk=function(){
+        if (this.x<0){
+            let playerX=this.x*-1;
+            var chunkX=playerX/625;
+            chunkX.toFixed(0);
+            chunkX=250-chunkX;
+        }
+        if (this.x>0){
+            var chunkX=this.x/625;
+            chunkX.toFixed(0);
+            chunkX=250+chunkX;
+        }
+        if (this.x==0){
+            var chunkX=250;
+        }
+        if (this.y<0){
+            let playerY=this.y*-1;
+            var chunkY=playerY/625;
+            chunkY.toFixed(0);
+            chunkY=3-chunkX;
+        }
+        if (this.y>0){
+            var chunkY=this.y/625;
+            chunkY.toFixed(0);
+            chunkY=3+chunkY;
+        }
+        if (this.y==0){
+            var chunkY=3
+        }
+        let chunk=chunkY*500+chunkX;
+        return chunk;
     }
 }
 
@@ -46,6 +120,7 @@ function gameInit(){
     window.ctx=canvas.getContext('2d');
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
+    window.thisPlayer=new player(0, 0, "src/player_models/buffalo.png");
     window.blocks=Array(50);
     //загружаем текстуры блоков
     blocks[0]=new block(0, null, false);
