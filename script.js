@@ -1,11 +1,16 @@
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let bgImg=new Image();
+    bgImg.src="src/MainMenuBackGround.gif";
+    ctx.beginPath();
+    ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+    ctx.closePath();
     drawWorld();
 }
 
 function drawWorld(){
     let chunk=thisPlayer.getChunk();
-    //получаем чанк, в котором находится игрокc
+    //получаем чанк, в котором находится игрок
     let drawbleChunk=Array();
     drawbleChunk.push(chunk-502);
     drawbleChunk.push(chunk-501);
@@ -97,7 +102,7 @@ function player(x, y, texture){
             chunkY=3+chunkY;
         }
         if (this.y==0){
-            var chunkY=3
+            var chunkY=3;
         }
         let chunk=chunkY*500+chunkX;
         return chunk;
