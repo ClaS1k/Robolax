@@ -1,0 +1,129 @@
+body{
+    margin: 0px;
+    background-image: url('../src/MainMenuBackGround.gif');
+}
+
+.SendMail{
+    width:500px;
+    height:600px;
+    position:absolute;
+    margin-left:-250px;
+    left: 50%;
+    top: 100px;
+    display: block;
+}
+
+.MailHeader{
+    width:500px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+#MailHeader{
+    color: white;
+    width: 400px;
+    height: 75px;
+    border-radius: 10px;
+    border: 4px solid #1989B8;
+    text-align: center;
+    font-size: 34px;
+    background: linear-gradient(0deg, rgba(30,167,225,.7), rgba(53,186,243,.7));
+}
+
+a[id=TextMail]{
+    line-height: 70px;
+}
+
+.MailErrorBlock{
+    height: 55px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    transition: 2s;
+}
+
+#MailError{
+    height: 50px;
+    width: 390px;
+    display: none; /*<------ обяз убрать в none */
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    background: rgba(178, 34, 34, .6);
+    border: 1px solid rgba(255,0,0,.4);
+    font-size: 24px;
+    color: white;
+}
+
+#MailSuccess{
+    height: 50px;
+    width: 390px;
+    display: none; /*<------ обяз убрать в none */
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    background: rgba(0, 255, 0, .6);
+    border: 1px solid rgba(50, 205, 50,.4);
+    font-size: 24px;
+    color: white;
+}
+
+.FormMail{
+    color: white;
+    width:500px;
+    height:500px;
+    display: flex;
+    justify-content: center;
+}
+
+
+form{
+    color: white;
+    width:400px;
+    height:370px;
+    display: inline-block;
+}
+
+input{
+    color: white;
+    margin-top: 20px;
+    margin-left: 4px;
+    width: 347px;
+    height: 45px;
+    font-size: 34px;
+    background: rgba(30,167,225,.7);
+    border: none;
+    border-radius: 10px;
+}
+
+input[id=email]{
+    padding-left: 45px;
+}
+
+
+input[id=MailBTN], input[id=MailBtnBack]{
+    width: 392px;
+    height: 45px;
+}
+
+
+::-webkit-input-placeholder{
+    color: white;
+}
+
+.LinkImgOfMail{
+    height: 40px;
+    width: 40px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    margin-left: -175px;
+}
+
+
+.LinkImgOfMail{
+    margin-top: 25px;
+    background-image: url("../src/UI/auth/hyperlink.png");
+}

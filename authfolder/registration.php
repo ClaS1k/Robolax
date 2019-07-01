@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>RobolaX</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="reg.css">
 </head>
 <body>
@@ -28,10 +28,10 @@
                 	<input type="password" id="pass" name="passwordreg" placeholder="Password" required>
                 	<input type="submit" id="regBTN" name="regbtn" value="Зaрегистрироваться">
                 	<?php
+                	if(isset($_POST['usernamereg']) && isset($_POST['emailreg']) && isset($_POST['passwordreg'])){
 							$usernamereg = $_POST['usernamereg'];
 							$emailreg = $_POST['emailreg'];  
 							$passwordreg = $_POST['passwordreg'];
-								session_start();
 									$host = 'localhost'; 
 									$db = 'authme';
 									$user = 'root';
@@ -52,7 +52,7 @@
 														</script>
 														<?php
 																}else{
-						 											$query ="INSERT INTO `SignIn` (username, password, pass, email) VALUES ('$usernamereg',md5('$passwordreg'), '$passwordreg', '$emailreg')";
+						 											$query ="INSERT INTO `signin` (username, password, pass, email) VALUES ('$usernamereg',md5('$passwordreg'), '$passwordreg', '$emailreg')";
 																	$result = mysqli_query($link, $query) or die("Ошибка с бд" . mysqli_error($link));
 																	?>
 																		<script type="text/javascript">
