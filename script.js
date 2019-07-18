@@ -38,139 +38,70 @@ function keyUpHandler(e){
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (upPressed){
-        thisPlayer.smeshY+=5;
         thisPlayer.y+=5;
     }
     if (downPressed){
-        thisPlayer.smeshY-=5;
         thisPlayer.y-=5;
     }
     if (rightPressed){
-        thisPlayer.smeshX+=5;
         thisPlayer.x+=5;
     }
     if (leftPressed){
-        thisPlayer.smeshX-=5;
         thisPlayer.x-=5;
     }
     drawWorld();
 }
 
 function drawWorld(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     let bgImg=new Image();
     bgImg.src="src/MainMenuBackGround.gif";
     ctx.beginPath();
     ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
     ctx.closePath();
-    let chunk=thisPlayer.getChunk();
-    //получаем чанк, в котором находится игрок
-    let drawbleChunk=Array();
-    drawbleChunk.push(chunk-502);
-    drawbleChunk.push(chunk-501);
-    drawbleChunk.push(chunk-500);
-    drawbleChunk.push(chunk-499);
-    drawbleChunk.push(chunk-498);
-    drawbleChunk.push(chunk-2);
-    drawbleChunk.push(chunk-1);
-    drawbleChunk.push(chunk);
-    drawbleChunk.push(chunk+1);
-    drawbleChunk.push(chunk+2);
-    drawbleChunk.push(chunk+498);
-    drawbleChunk.push(chunk+499);
-    drawbleChunk.push(chunk+500);
-    drawbleChunk.push(chunk+501);
-    drawbleChunk.push(chunk+502);
-    //составляем список рисуемых чанков
-    let x=canvas.width/2-1562.5-thisPlayer.smeshX;
-    let y=canvas.height/2-937.5+thisPlayer.smeshY;
-    //считаем стартовые координаты
-    let countChunk=0;
-    let countChunkY=0;
     let i=0;
-    while (i<15){
+    let x=0-thisPlayer.x;
+    let y=0-thisPlayer.y;
+    let countXBig=0;
+    let countYBig=0;
+    while (i<10000){
         let j=0;
-        let countBlock=0;
+        console.log(x+","+y);
+        let countX=0;
+        let countY=0; 
         while (j<625){
-            if (j==0){
-                ctx.beginPath();
-                ctx.fillStyle="black";
-                ctx.fillRect(x, y, 25, 25);
-                ctx.fillStyle="white";
-                ctx.fontStyle="22px Verdana";
-                ctx.fillText(i, x, y);
-                ctx.closePath();
-            }
-            if (countBlock==25){
-                y+=25;
-                x-=625;
-                countBlock=0;
-            }
-            let dChunk=drawbleChunk[i];
-            let blockId=world.world[dChunk][j];
-            if (blockId!=0){
-                let drawbleBlock=blocks[blockId];
+            let blockId=world.world[i][j];
+            let drawbleBlock=blocks[blockId];
+            if (drawbleBlock.texture){
                 ctx.beginPath();
                 ctx.drawImage(drawbleBlock.texture, x, y, 25, 25);
                 ctx.closePath();
             }
-            x+=25;
+            countX++;
+            if (countX==26){
+                countY+=1;
+                countX=0;
+            }
+            x=x+countX*25;
+            y=y+countY*25;
             j++;
-            countBlock++;
         }
-        countChunk++;
-        if (countChunk==5){
-            y+=25;
-            countChunkY+=1;
-            countChunk=0;
-            x=canvas.width/2-1562.5-thisPlayer.smeshX;
-        }else{
-            x=canvas.width/2-1562.5+625*countChunk-thisPlayer.smeshX;
-            y=canvas.height/2-937.5+625*countChunkY+thisPlayer.smeshY;
+        countXBig+=1;
+        if (countXBig==501){
+            countYBig+=1;
+            countXBig=0;
         }
+        x=0-thisPlayer.x+625*countXBig;
+        y=0-thisPlayer.y+625*countYBig;
         i++;
     }
 }
 
-function player(x, y, texture, smeshX, smeshY){
+function player(x, y, texture){
     this.x=x;
     this.y=y;
-    this.smeshX=smeshX;
-    this.smeshY=smeshY;
     this.texture=new Image();
     this.texture.src=texture;
-    this.getChunk=function(){
-        if (this.x<0){
-            let playerX=this.x*-1;
-            var chunkX=playerX/625;
-            chunkX=parseInt(chunkX, 10);
-            chunkX=250-chunkX;
-        }
-        if (this.x>0){
-            var chunkX=this.x/625;
-            chunkX=parseInt(chunkX, 10)
-            chunkX=250+chunkX;
-        }
-        if (this.x==0){
-            var chunkX=250;
-        }
-        if (this.y<0){
-            let playerY=this.y*-1;
-            var chunkY=playerY/625;
-            chunkY=parseInt(chunkY, 10);
-            chunkY=3-chunkY;
-        }
-        if (this.y>0){
-            var chunkY=this.y/625;
-            chunkY=parseInt(chunkY, 10)
-            chunkY=3+chunkY;
-        }
-        if (this.y==0){
-            var chunkY=3;
-        }
-        let chunk=chunkY*500+chunkX;
-        chunk=parseInt(chunk, 10);
-        return chunk;
-    }
 }
 
 function block(id, texture, touchble){
@@ -189,7 +120,7 @@ function gameInit(){
     window.ctx=canvas.getContext('2d');
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
-    window.thisPlayer=new player(0, 0, "src/player_models/buffalo.png", 0, 0);
+    window.thisPlayer=new player(156250, 1250, "src/player_models/buffalo.png");
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     window.upPressed=false;
@@ -296,7 +227,7 @@ function startSinglePlayerGame(){
     canvas.style.display="block";
     window.world=new World();
     world.buildWorld();
-    var interval=setInterval(draw, 30);
+    //var interval=setInterval(draw, 30);
 }
 
 function singlePlayerMenuBack(){
