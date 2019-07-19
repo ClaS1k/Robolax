@@ -53,7 +53,6 @@ function draw(){
 }
 
 function drawWorld(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     let bgImg=new Image();
     bgImg.src="src/MainMenuBackGround.gif";
     ctx.beginPath();
@@ -68,17 +67,17 @@ function drawWorld(){
         let j=0;
         console.log(x+","+y);
         let countX=0;
-        let countY=0; 
+        let countY=0;
         while (j<625){
             let blockId=world.world[i][j];
             let drawbleBlock=blocks[blockId];
-            if (drawbleBlock.texture){
+            if (drawbleBlock.texture!=null){
                 ctx.beginPath();
                 ctx.drawImage(drawbleBlock.texture, x, y, 25, 25);
                 ctx.closePath();
             }
             countX++;
-            if (countX==26){
+            if (countX==25){
                 countY+=1;
                 countX=0;
             }
