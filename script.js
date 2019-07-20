@@ -53,6 +53,7 @@ function draw(){
 }
 
 function drawWorld(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     let bgImg=new Image();
     bgImg.src="src/MainMenuBackGround.gif";
     ctx.beginPath();
@@ -65,7 +66,6 @@ function drawWorld(){
     let countYBig=0;
     while (i<10000){
         let j=0;
-        console.log(x+","+y);
         let countX=0;
         let countY=0;
         while (j<625){
@@ -81,8 +81,8 @@ function drawWorld(){
                 countY+=1;
                 countX=0;
             }
-            x=x+countX*25;
-            y=y+countY*25;
+            x=0-thisPlayer.x+625*countXBig+countX*25;
+            y=0-thisPlayer.y+625*countYBig+countY*25;
             j++;
         }
         countXBig+=1;
@@ -94,6 +94,7 @@ function drawWorld(){
         y=0-thisPlayer.y+625*countYBig;
         i++;
     }
+    console.log('done!');
 }
 
 function player(x, y, texture){
