@@ -38,16 +38,16 @@ function keyUpHandler(e){
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (upPressed){
-        thisPlayer.y+=5;
-    }
-    if (downPressed){
         thisPlayer.y-=5;
     }
+    if (downPressed){
+        thisPlayer.y+=5;
+    }
     if (rightPressed){
-        thisPlayer.x+=5;
+        thisPlayer.x+=7;
     }
     if (leftPressed){
-        thisPlayer.x-=5;
+        thisPlayer.x-=7;
     }
     drawWorld();
 }
@@ -65,36 +65,46 @@ function drawWorld(){
     let countXBig=0;
     let countYBig=0;
     while (i<10000){
-        let j=0;
-        let countX=0;
-        let countY=0;
-        while (j<625){
-            let blockId=world.world[i][j];
-            let drawbleBlock=blocks[blockId];
-            if (drawbleBlock.texture!=null){
-                ctx.beginPath();
-                ctx.drawImage(drawbleBlock.texture, x, y, 25, 25);
-                ctx.closePath();
+        if (x>-1800 && x<1800 && y>-1500 && y<+1500){
+            console.log(x+","+y);
+            let j=0;
+            let countX=0;
+            let countY=0;
+            while (j<625){
+                let blockId=world.world[i][j];
+                let drawbleBlock=blocks[blockId];
+                if (drawbleBlock.texture!=null){
+                    ctx.beginPath();
+                    ctx.drawImage(drawbleBlock.texture, x, y, 25, 25);
+                    ctx.closePath();
+                }
+                countX++;
+                if (countX==25){
+                    countY+=1;
+                    countX=0;
+                }
+                x=0-thisPlayer.x+625*countXBig+countX*25;
+                y=0-thisPlayer.y+625*countYBig+countY*25;
+                j++;
             }
-            countX++;
-            if (countX==25){
-                countY+=1;
-                countX=0;
+            countXBig+=1;
+            if (countXBig==501){
+                countYBig+=1;
+                countXBig=0;
             }
-            x=0-thisPlayer.x+625*countXBig+countX*25;
-            y=0-thisPlayer.y+625*countYBig+countY*25;
-            j++;
+            x=0-thisPlayer.x+625*countXBig;
+            y=0-thisPlayer.y+625*countYBig;
+        }else{
+            countXBig+=1;
+            if (countXBig==501){
+                countYBig+=1;
+                countXBig=0;
+            }
+            x=0-thisPlayer.x+625*countXBig;
+            y=0-thisPlayer.y+625*countYBig;
         }
-        countXBig+=1;
-        if (countXBig==501){
-            countYBig+=1;
-            countXBig=0;
-        }
-        x=0-thisPlayer.x+625*countXBig;
-        y=0-thisPlayer.y+625*countYBig;
         i++;
     }
-    console.log('done!');
 }
 
 function player(x, y, texture){
@@ -120,7 +130,7 @@ function gameInit(){
     window.ctx=canvas.getContext('2d');
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
-    window.thisPlayer=new player(156250, 1250, "src/player_models/buffalo.png");
+    window.thisPlayer=new player(156250, 1650, "src/player_models/buffalo.png");
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     window.upPressed=false;
@@ -227,7 +237,7 @@ function startSinglePlayerGame(){
     canvas.style.display="block";
     window.world=new World();
     world.buildWorld();
-    //var interval=setInterval(draw, 30);
+    var interval=setInterval(draw, 30);
 }
 
 function singlePlayerMenuBack(){
