@@ -37,7 +37,6 @@ function keyUpHandler(e){
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    console.log('done!');
     if (upPressed){
         thisPlayer.y-=5;
     }
