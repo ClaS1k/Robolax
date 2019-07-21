@@ -37,6 +37,7 @@ function keyUpHandler(e){
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    console.log('done!');
     if (upPressed){
         thisPlayer.y-=5;
     }
@@ -66,7 +67,6 @@ function drawWorld(){
     let countYBig=0;
     while (i<10000){
         if (x>-1800 && x<1800 && y>-1500 && y<+1500){
-            console.log(x+","+y);
             let j=0;
             let countX=0;
             let countY=0;
