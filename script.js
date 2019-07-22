@@ -35,6 +35,19 @@ function keyUpHandler(e){
     }
 }
 
+function checkCords(cordX, cordY){
+    //вычисление id блока по координатам cordX и cordY
+    let chunkX=Math.floor(cordX/625);
+    let chunkY=Math.floor(cordY/625);
+    let blockX=cordX%625;
+    let blockY=cordY%625;
+    let chunkNum=chunkY*500+chunkX;
+    let blockNum=Math.floor(blockY/25)*10+Math.floor(blockX/25);
+    let blockId=world.world[chunkNum][blockNum];
+    world.world[chunkNum][blockNum]=1;
+    return blockId;
+}
+
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (upPressed){

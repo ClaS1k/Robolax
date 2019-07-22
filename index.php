@@ -60,48 +60,47 @@
 								$user = 'root';
 								$password = '';
 
-										$link = mysqli_connect($host, $user, $password, $db) or die("Ошибка " . mysqli_error($link));
+                                        $link = mysqli_connect($host, $user, $password, $db) or die("Ошибка " . mysqli_error($link));
 
-										if(isset($_POST['username']) && isset($_POST['password'])){
-										session_start(); 
-												$username = $_POST['username']; 
-												$password = $_POST['password'];  
-											$log = "SELECT * FROM `signin` WHERE username = '$username' and pass = '$password'";
-											$data = mysqli_query($link, $log);
-										if(mysqli_num_rows($data) == 1){
-												$result = mysqli_query($link, $log) or die("Ошибка с бд" . mysqli_error($link)); 
-												if($result){
-													?>
-		 												<script>
-		 													document.getElementById('Auth').style.display="none"; 
-															document.getElementById('mainMenu').style.display="block";
-		 												</script>
-		 											<?php
-		   										}else{
-		 											?>
-		 												<script>
-		 													document.getElementById('NotValid').style.display="block"; 
-		 													document.getElementById('login').style.border="1px solid rgba(255,0,0,.9)";
-		 													document.getElementById('pass').style.border="1px solid rgba(255,0,0,.9)";
-		 													document.getElementById('login').style.height = "43px";
-		 													document.getElementById('pass').style.height = "43px";
-		 												</script>
-		 											<?php
-		 										}
-											}else{
-		 											?>
-		 												<script>
-		 													document.getElementById('NotValid').style.display="block"; 
-		 													document.getElementById('login').style.border="1px solid rgba(255,0,0,.9)";
-		 													document.getElementById('pass').style.border="1px solid rgba(255,0,0,.9)";
-		 													document.getElementById('login').style.height = "43px";
-		 													document.getElementById('pass').style.height = "43px";
-		 												</script>
-		 											<?php
-		 									}	
-										}
-										?>
-               	 </form>
+                                        if(isset($_POST['username']) && isset($_POST['password'])){
+                                                $username = $_POST['username']; 
+                                                $password = $_POST['password'];  
+                                            $log = "SELECT * FROM `signin` WHERE username = '$username' and pass = '$password'";
+                                            $data = mysqli_query($link, $log);
+                                        if(mysqli_num_rows($data) == 1){
+                                                $result = mysqli_query($link, $log) or die("Ошибка с бд" . mysqli_error($link)); 
+                                                if($result){
+                                                    ?>
+                                                        <script>
+                                                            document.getElementById('Auth').style.display="none"; 
+                                                            document.getElementById('mainMenu').style.display="block";
+                                                        </script>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                        <script>
+                                                            document.getElementById('NotValid').style.display="block"; 
+                                                            document.getElementById('login').style.border="1px solid rgba(255,0,0,.9)";
+                                                            document.getElementById('pass').style.border="1px solid rgba(255,0,0,.9)";
+                                                            document.getElementById('login').style.height = "43px";
+                                                            document.getElementById('pass').style.height = "43px";
+                                                        </script>
+                                                    <?php
+                                                }
+                                            }else{
+                                                    ?>
+                                                        <script>
+                                                            document.getElementById('NotValid').style.display="block"; 
+                                                            document.getElementById('login').style.border="1px solid rgba(255,0,0,.9)";
+                                                            document.getElementById('pass').style.border="1px solid rgba(255,0,0,.9)";
+                                                            document.getElementById('login').style.height = "43px";
+                                                            document.getElementById('pass').style.height = "43px";
+                                                        </script>
+                                                    <?php
+                                            }   
+                                        }
+                                        ?>
+                 </form>
                	</div>
                		<div class="RegistrationBTNinAuthwindow">
                			<button id="regBTN" onclick="
@@ -113,7 +112,9 @@
                			document.getElementById('Auth').style.display='none'; 
 						document.getElementById('mainMenu').style.display='block';
 						">Продолжить без авторизации</a>
-               			<a id="DontKnow" onclick="">Забыл пароль</a>
+               			<a id="DontKnow" onclick="document.location.href = 'authfolder/sendpassword.php';
+                        
+                        ">Забыл пароль</a>
                		</div>
             </div>
         </div>
