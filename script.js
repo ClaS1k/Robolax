@@ -5,6 +5,9 @@ window.onresize=function(){
 
 function keyDownHandler(e){
     let keyCode=e.keyCode;
+    if (keyCode==69){
+        destroyPressed=true;
+    }
     if (keyCode==87){
         upPressed=true;
     }
@@ -21,6 +24,9 @@ function keyDownHandler(e){
 
 function keyUpHandler(e){
     let keyCode=e.keyCode;
+    if (keyCode==69){
+        destroyPressed=false;
+    }
     if (keyCode==87){
         upPressed=false;
     }
@@ -37,44 +43,75 @@ function keyUpHandler(e){
 
 function checkCords(cordX, cordY){
     //вычисление id блока по координатам cordX и cordY
-    let chunkX=Math.floor(cordX/625);
-    let chunkY=Math.floor(cordY/625);
-    let blockX=cordX%625;
-    let blockY=cordY%625;
+    let chunkX=parseInt(cordX/625);
+    let chunkY=parseInt(cordY/625);
     let chunkNum=chunkY*500+chunkX;
-    let blockNum=Math.floor(blockY/25)*10+Math.floor(blockX/25);
-    let blockId=world.world[chunkNum][blockNum];
-    world.world[chunkNum][blockNum]=1;
-    return blockId;
+    let blockX=parseInt((cordX%625)/25);
+    let blockY=parseInt((cordY%625)/25);
+    let blockNum=blockY*25+blockX;
+    let returnable=Array(2);
+    returnable[0]=chunkNum;
+    returnable[1]=blockNum;
+    return returnable;
 }
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (upPressed){
-        thisPlayer.y-=5;
+        let data=checkCords(thisPlayer.x, thisPlayer.y-5);
+        let blockId=world.world[data[0]][data[1]];
+        if (!blocks[blockId].touchble){
+            thisPlayer.y-=5;
+        }
     }
     if (downPressed){
-        thisPlayer.y+=5;
+        let data=checkCords(thisPlayer.x, thisPlayer.y+5);
+        let blockId=world.world[data[0]][data[1]];
+        if (!blocks[blockId].touchble){
+            thisPlayer.y+=5;
+        }
     }
     if (rightPressed){
-        thisPlayer.x+=7;
+        let data=checkCords(thisPlayer.x+7, thisPlayer.y);
+        let blockId=world.world[data[0]][data[1]];
+        if (!blocks[blockId].touchble){
+            thisPlayer.x+=7;
+        }
     }
     if (leftPressed){
-        thisPlayer.x-=7;
+        let data=checkCords(thisPlayer.x-7, thisPlayer.y);
+        let blockId=world.world[data[0]][data[1]];
+        if (!blocks[blockId].touchble){
+            thisPlayer.x-=7;
+        }
+    }
+    if (destroyPressed){
+        let data=checkCords(thisPlayer.x+10, thisPlayer.y);
+        world.world[data[0]][data[1]]=0;
+        data=checkCords(thisPlayer.x-10, thisPlayer.y);
+        world.world[data[0]][data[1]]=0;
+        data=checkCords(thisPlayer.x, thisPlayer.y+10);
+        world.world[data[0]][data[1]]=0;
+        data=checkCords(thisPlayer.x, thisPlayer.y-10);
+        world.world[data[0]][data[1]]=0;
     }
     drawWorld();
+    ctx.beginPath();
+    ctx.rect(canvas.width/2-5, canvas.height/2-5, 10, 10);
+    ctx.fillStyle="red";
+    ctx.fill();
+    ctx.closePath();
 }
 
 function drawWorld(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     let bgImg=new Image();
     bgImg.src="src/MainMenuBackGround.gif";
     ctx.beginPath();
     ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
     ctx.closePath();
     let i=0;
-    let x=0-thisPlayer.x;
-    let y=0-thisPlayer.y;
+    let x=0-thisPlayer.x+canvas.width/2;
+    let y=0-thisPlayer.y+canvas.height/2;
     let countXBig=0;
     let countYBig=0;
     while (i<10000){
@@ -95,25 +132,25 @@ function drawWorld(){
                     countY+=1;
                     countX=0;
                 }
-                x=0-thisPlayer.x+625*countXBig+countX*25;
-                y=0-thisPlayer.y+625*countYBig+countY*25;
+                x=0-thisPlayer.x+625*countXBig+countX*25+canvas.width/2;
+                y=0-thisPlayer.y+625*countYBig+countY*25+canvas.height/2;
                 j++;
             }
             countXBig+=1;
-            if (countXBig==501){
+            if (countXBig==500){
                 countYBig+=1;
                 countXBig=0;
             }
-            x=0-thisPlayer.x+625*countXBig;
-            y=0-thisPlayer.y+625*countYBig;
+            x=0-thisPlayer.x+625*countXBig+canvas.width/2;
+            y=0-thisPlayer.y+625*countYBig+canvas.height/2;
         }else{
             countXBig+=1;
-            if (countXBig==501){
+            if (countXBig==500){
                 countYBig+=1;
                 countXBig=0;
             }
-            x=0-thisPlayer.x+625*countXBig;
-            y=0-thisPlayer.y+625*countYBig;
+            x=0-thisPlayer.x+625*countXBig+canvas.width/2;
+            y=0-thisPlayer.y+625*countYBig+canvas.height/2;
         }
         i++;
     }
@@ -149,6 +186,7 @@ function gameInit(){
     window.downPressed=false;
     window.rightPressed=false;
     window.leftPressed=false;
+    window.destroyPressed=false;
     window.blocks=Array(50);
     //загружаем текстуры блоков
     blocks[0]=new block(0, null, false);
