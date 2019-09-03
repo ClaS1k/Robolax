@@ -8,11 +8,8 @@ function keyDownHandler(e){
     if (keyCode==69){
         destroyPressed=true;
     }
-    if (keyCode==87){
-        upPressed=true;
-    }
-    if (keyCode==83){
-        downPressed=true;
+    if (keyCode==32){
+        jumpPressed=true;
     }
     if (keyCode==68){
         rightPressed=true;
@@ -27,11 +24,8 @@ function keyUpHandler(e){
     if (keyCode==69){
         destroyPressed=false;
     }
-    if (keyCode==87){
-        upPressed=false;
-    }
-    if (keyCode==83){
-        downPressed=false;
+    if (keyCode==32){
+        jumpPressed=false;
     }
     if (keyCode==68){
         rightPressed=false;
@@ -57,34 +51,8 @@ function checkCords(cordX, cordY){
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (upPressed){
-        let data=checkCords(thisPlayer.x, thisPlayer.y-5);
-        let blockId=world.world[data[0]][data[1]];
-        if (!blocks[blockId].touchble){
-            thisPlayer.y-=5;
-        }
-    }
-    if (downPressed){
-        let data=checkCords(thisPlayer.x, thisPlayer.y+5);
-        let blockId=world.world[data[0]][data[1]];
-        if (!blocks[blockId].touchble){
-            thisPlayer.y+=5;
-        }
-    }
-    if (rightPressed){
-        let data=checkCords(thisPlayer.x+7, thisPlayer.y);
-        let blockId=world.world[data[0]][data[1]];
-        if (!blocks[blockId].touchble){
-            thisPlayer.x+=7;
-        }
-    }
-    if (leftPressed){
-        let data=checkCords(thisPlayer.x-7, thisPlayer.y);
-        let blockId=world.world[data[0]][data[1]];
-        if (!blocks[blockId].touchble){
-            thisPlayer.x-=7;
-        }
-    }
+    thisPlayer.speedCount();
+    thisPlayer.move();
     if (destroyPressed){
         let data=checkCords(thisPlayer.x+10, thisPlayer.y);
         world.world[data[0]][data[1]]=0;
@@ -97,7 +65,7 @@ function draw(){
     }
     drawWorld();
     ctx.beginPath();
-    ctx.rect(canvas.width/2-5, canvas.height/2-5, 10, 10);
+    ctx.rect(canvas.width/2-25, canvas.height/2-37.5, 50, 75);
     ctx.fillStyle="red";
     ctx.fill();
     ctx.closePath();
@@ -161,6 +129,176 @@ function player(x, y, texture){
     this.y=y;
     this.texture=new Image();
     this.texture.src=texture;
+    this.speedX=0;
+    this.speedY=0;
+    this.accelerationX=0;
+    this.accelerationY=0;
+    this.inAir=function(){
+        let point1=checkCords(this.x-25, this.y+37.5);
+        let point2=checkCords(this.x, this.y+37.5);
+        let point3=checkCords(this.x+25, this.y+37.5);
+        let blockid=world.world[point1[0]][point1[1]];
+        let block=blocks[blockid];
+        if (block.touchble){
+            return false;
+        }else{
+            let blockid=world.world[point2[0]][point2[1]];
+            let block=blocks[blockid];
+            if (block.touchble){
+                return false;
+            }else{
+                let blockid=world.world[point3[0]][point3[1]];
+                let block=blocks[blockid];
+                if (block.touchble){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }
+    }
+    this.move=function(){
+        //функция передвижения игрока
+        this.x+=this.speedX;
+        this.y+=this.speedY;
+    }
+    this.speedCount=function(){
+        //расчёт скорости и ускорения
+        if (rightPressed){
+            if (this.accelerationX<4){
+                this.accelerationX+=4;
+            }
+        }
+        if (leftPressed){
+            if (this.accelerationX>-4){
+                this.accelerationX-=4;
+            }
+        }
+        if (!rightPressed && !leftPressed){
+            this.accelerationX=0;
+            if (this.speedX>0){
+                this.speedX-=1;
+            }
+            if (this.speedX<0){
+                this.speedX+=1;
+            }
+        }
+        if (jumpPressed){
+            if (!this.inAir){
+                if (this.accelerationY>-4){
+                    this.accelerationY-=4;
+                }
+            }
+        }
+        if (this.inAir){
+            this.accelerationY+=world.gravity;
+        }else{
+            this.accelerationY=0;
+        }
+        if (this.accelerationX>0){
+            if (this.speedX<6){
+                this.speedX+=this.accelerationX;
+            }
+        }
+        if (this.accelerationX<0){
+            if (this.speedX>-6){
+                this.speedX+=this.accelerationX;
+            }
+        }
+        if (this.accelerationY>0){
+            if (this.speedY<30){
+                this.speedY+=this.accelerationY;
+            }
+        }
+        if (this.speedX>0){
+            let point1=checkCords(this.x+25+this.speedX, this.y+37.5);
+            let point2=checkCords(this.x+25+this.speedX, this.y);
+            let point3=checkCords(this.x+25+this.speedX, this.y-37.5);
+            let blockid=world.world[point1[0]][point1[1]];
+            let block=blocks[blockid];
+            if (block.touchble){
+                this.speedX=0;
+            }else{
+                let blockid=world.world[point2[0]][point2[1]];
+                let block=blocks[blockid];
+                if (block.touchble){
+                    this.speedX=0;
+                }else{
+                    let blockid=world.world[point3[0]][point3[1]];
+                    let block=blocks[blockid];
+                    if (block.touchble){
+                        this.speedX=0;
+                    }
+                }
+            }
+        }
+        if (this.speedY>0){
+            let point1=checkCords(this.x+25, this.y+37.5+this.speedY);
+            let point2=checkCords(this.x, this.y+37.5+this.speedY);
+            let point3=checkCords(this.x-25, this.y+37.5+this.speedY);
+            let blockid=world.world[point1[0]][point1[1]];
+            let block=blocks[blockid];
+            if (block.touchble){
+                this.speedY=0;
+            }else{
+                let blockid=world.world[point2[0]][point2[1]];
+                let block=blocks[blockid];
+                if (block.touchble){
+                    this.speedY=0;
+                }else{
+                    let blockid=world.world[point3[0]][point3[1]];
+                    let block=blocks[blockid];
+                    if (block.touchble){
+                        this.speedY=0;
+                    }
+                }
+            }
+        }
+        if (this.speedX<0){
+            let point1=checkCords(this.x-25-this.speedX, this.y+37.5);
+            let point2=checkCords(this.x-25-this.speedX, this.y);
+            let point3=checkCords(this.x-25-this.speedX, this.y-37.5);
+            let blockid=world.world[point1[0]][point1[1]];
+            let block=blocks[blockid];
+            if (block.touchble){
+                this.speedY=0;
+            }else{
+                let blockid=world.world[point2[0]][point2[1]];
+                let block=blocks[blockid];
+                if (block.touchble){
+                    this.speedY=0;
+                }else{
+                    let blockid=world.world[point3[0]][point3[1]];
+                    let block=blocks[blockid];
+                    if (block.touchble){
+                        this.speedY=0;
+                    }
+                }
+            }
+        }
+        if (this.speedY<0){
+            let point1=checkCords(this.x+25, this.y-37.5-this.speedY);
+            let point2=checkCords(this.x, this.y-37.5-this.speedY);
+            let point3=checkCords(this.x-25, this.y-37.5-this.speedY);
+            let blockid=world.world[point1[0]][point1[1]];
+            let block=blocks[blockid];
+            if (block.touchble){
+                this.speedY=0;
+            }else{
+                let blockid=world.world[point2[0]][point2[1]];
+                let block=blocks[blockid];
+                if (block.touchble){
+                    this.speedY=0;
+                }else{
+                    let blockid=world.world[point3[0]][point3[1]];
+                    let block=blocks[blockid];
+                    if (block.touchble){
+                        this.speedY=0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 function block(id, texture, touchble){
@@ -182,8 +320,7 @@ function gameInit(){
     window.thisPlayer=new player(156250, 1650, "src/player_models/buffalo.png");
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    window.upPressed=false;
-    window.downPressed=false;
+    window.jumpPressed=false;
     window.rightPressed=false;
     window.leftPressed=false;
     window.destroyPressed=false;
