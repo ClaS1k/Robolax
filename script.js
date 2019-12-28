@@ -134,9 +134,9 @@ function player(x, y, texture){
     this.accelerationX=0;
     this.accelerationY=0;
     this.inAir=function(){
-        let point1=checkCords(this.x-25, this.y+37.5);
-        let point2=checkCords(this.x, this.y+37.5);
-        let point3=checkCords(this.x+25, this.y+37.5);
+        let point1=checkCords(this.x-25, this.y+39);
+        let point2=checkCords(this.x, this.y+39);
+        let point3=checkCords(this.x+25, this.y+39);
         let blockid=world.world[point1[0]][point1[1]];
         let block=blocks[blockid];
         if (block.touchble){
@@ -184,13 +184,14 @@ function player(x, y, texture){
             }
         }
         if (jumpPressed){
-            if (!this.inAir){
-                if (this.accelerationY>-4){
-                    this.accelerationY-=4;
+            if (!this.inAir()){
+                if (this.accelerationY > -10){
+                    this.accelerationY -= 10;
                 }
             }
         }
-        if (this.inAir){
+        this.speedY+=this.accelerationY;
+        if (this.inAir()){
             this.accelerationY+=world.gravity;
         }else{
             this.accelerationY=0;
@@ -211,9 +212,9 @@ function player(x, y, texture){
             }
         }
         if (this.speedX>0){
-            let point1=checkCords(this.x+25+this.speedX, this.y+37.5);
-            let point2=checkCords(this.x+25+this.speedX, this.y);
-            let point3=checkCords(this.x+25+this.speedX, this.y-37.5);
+            let point1=checkCords(this.x+22.5+this.speedX, this.y+36);
+            let point2=checkCords(this.x+22.5+this.speedX, this.y);
+            let point3=checkCords(this.x+22.5+this.speedX, this.y-36);
             let blockid=world.world[point1[0]][point1[1]];
             let block=blocks[blockid];
             if (block.touchble){
@@ -233,9 +234,9 @@ function player(x, y, texture){
             }
         }
         if (this.speedY>0){
-            let point1=checkCords(this.x+25, this.y+37.5+this.speedY);
-            let point2=checkCords(this.x, this.y+37.5+this.speedY);
-            let point3=checkCords(this.x-25, this.y+37.5+this.speedY);
+            let point1=checkCords(this.x+20, this.y+36+this.speedY);
+            let point2=checkCords(this.x, this.y+36+this.speedY);
+            let point3=checkCords(this.x-20, this.y+36+this.speedY);
             let blockid=world.world[point1[0]][point1[1]];
             let block=blocks[blockid];
             if (block.touchble){
@@ -255,31 +256,31 @@ function player(x, y, texture){
             }
         }
         if (this.speedX<0){
-            let point1=checkCords(this.x-25-this.speedX, this.y+37.5);
-            let point2=checkCords(this.x-25-this.speedX, this.y);
-            let point3=checkCords(this.x-25-this.speedX, this.y-37.5);
+            let point1=checkCords(this.x-22.5+this.speedX, this.y+36);
+            let point2=checkCords(this.x-22.5+this.speedX, this.y);
+            let point3=checkCords(this.x-22.5+this.speedX, this.y-36);
             let blockid=world.world[point1[0]][point1[1]];
             let block=blocks[blockid];
             if (block.touchble){
-                this.speedY=0;
+                this.speedX=0;
             }else{
                 let blockid=world.world[point2[0]][point2[1]];
                 let block=blocks[blockid];
                 if (block.touchble){
-                    this.speedY=0;
+                    this.speedX=0;
                 }else{
                     let blockid=world.world[point3[0]][point3[1]];
                     let block=blocks[blockid];
                     if (block.touchble){
-                        this.speedY=0;
+                        this.speedX=0;
                     }
                 }
             }
         }
         if (this.speedY<0){
-            let point1=checkCords(this.x+25, this.y-37.5-this.speedY);
-            let point2=checkCords(this.x, this.y-37.5-this.speedY);
-            let point3=checkCords(this.x-25, this.y-37.5-this.speedY);
+            let point1=checkCords(this.x+20, this.y-36-this.speedY);
+            let point2=checkCords(this.x, this.y-36-this.speedY);
+            let point3=checkCords(this.x-20, this.y-36-this.speedY);
             let blockid=world.world[point1[0]][point1[1]];
             let block=blocks[blockid];
             if (block.touchble){
@@ -317,6 +318,14 @@ function gameInit(){
     window.ctx=canvas.getContext('2d');
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
+    canvas.addEventListener('click', function (e){
+        let mouse_X=e.clientX;
+        let mouse_Y=e.clientY;
+        let x=thisPlayer.x-canvas.width/2+mouse_X;
+        let y=thisPlayer.y-canvas.height/2+mouse_Y;
+        let point=checkCords(x, y);
+        world.setBlock(point[0], point[1], 0);
+    });
     window.thisPlayer=new player(156250, 1650, "src/player_models/buffalo.png");
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -339,9 +348,12 @@ function getRandom(min, max) {
 
 function World(){
     //генерация мира
-    this.gravity=1;
+    this.gravity=0.05;
     this.backGround=getRandom(1, 5);
     this.world=Array();
+    this.setBlock=function (line_num, chunk_num, block_id){
+        this.world[line_num][chunk_num]=block_id;
+    }
     this.buildWorld=function(){
         let j=0;
         while (j<10000){
@@ -424,7 +436,7 @@ function startSinglePlayerGame(){
     canvas.style.display="block";
     window.world=new World();
     world.buildWorld();
-    var interval=setInterval(draw, 30);
+    window.interval=setInterval(draw, 30);
 }
 
 function singlePlayerMenuBack(){
