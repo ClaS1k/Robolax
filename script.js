@@ -64,6 +64,7 @@ function draw(){
         world.world[data[0]][data[1]]=0;
     }
     drawWorld();
+    drawInterface();
     ctx.beginPath();
     ctx.rect(canvas.width/2-25, canvas.height/2-37.5, 50, 75);
     ctx.fillStyle="red";
@@ -124,9 +125,161 @@ function drawWorld(){
     }
 }
 
-function player(x, y, texture){
+function drawInterface(){
+    ctx.beginPath();
+    ctx.rect(22, 30, thisPlayer.hp , 5);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.strokeStyle = 'red';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    //первый слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-470, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[0].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-477.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+    //второй слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-410, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[1].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-417.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+    //третий слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-350, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[2].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-357.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+    //четвёртый слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-290, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[3].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-297.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+    //пятый слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-230, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[4].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-237.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+    //шестой слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-170, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[5].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-177.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+    //седьмой слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-110, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[6].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-117.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+    //восьмой слот
+    ctx.beginPath();
+    ctx.rect(canvas.width-50, 30, 15 , 15);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 35;
+    ctx.stroke();
+    ctx.closePath();
+    block_id=thisPlayer.inventory[7].id;
+    if (block_id!=0){
+        ctx.beginPath();
+        ctx.drawImage(blocks[block_id].texture, canvas.width-57.5, 22.5, 30, 30);
+        ctx.closePath();  
+    }
+}
+
+function item(id, mass){
+    this.id=id;
+    this.mass=mass;
+}
+
+function player(x, y, texture, hp){
+    this.hp=hp;
     this.x=x;
     this.y=y;
+    this.inventory=[];
+    let i=0;
+    while (i<32){
+        this.inventory[i]=new item(0, 0);
+        i++;
+    }
     this.texture=new Image();
     this.texture.src=texture;
     this.speedX=0;
@@ -194,6 +347,18 @@ function player(x, y, texture){
         if (this.inAir()){
             this.accelerationY+=world.gravity;
         }else{
+            if (this.speedY>10){
+                thisPlayer.hp-=10;
+            }
+            if (this.speedY>15){
+                thisPlayer.hp-=20;
+            }
+            if (this.speedY>20){
+                thisPlayer.hp-=40;
+            }
+            if (this.speedY>25){
+                thisPlayer.hp-=70;
+            }
             this.accelerationY=0;
         }
         if (this.accelerationX>0){
@@ -324,9 +489,38 @@ function gameInit(){
         let x=thisPlayer.x-canvas.width/2+mouse_X;
         let y=thisPlayer.y-canvas.height/2+mouse_Y;
         let point=checkCords(x, y);
+        let blockid=world.world[point[0]][point[1]];
+        let i=0;
         world.setBlock(point[0], point[1], 0);
+        while (i<32){
+            if (blockid==thisPlayer.inventory[i].id){
+                thisPlayer.inventory[i].mass+=1;
+                i=32;
+            }else{
+                if(thisPlayer.inventory[i].id==0){
+                    thisPlayer.inventory[i].id=blockid;
+                    thisPlayer.inventory[i].mass+=1;
+                    i=32;
+                }
+            }
+            i++;
+        }
     });
-    window.thisPlayer=new player(156250, 1650, "src/player_models/buffalo.png");
+    window.music=new Audio();
+    window.music_id=getRandom(1, 3);
+    window.music.src="src/music/"+window.music_id+".mp3";
+    window.music.onended=function(){
+        if (window.music_id==3){
+            window.music_id=1;
+        }else{
+            window.music_id++;
+        }
+        window.music.src="src/music/"+window.music_id+".mp3";
+        window.music.play();
+    }
+    window.music.volume=0.2;
+    window.music.play();
+    window.thisPlayer=new player(156250, 1850, "src/player_models/buffalo.png", 100);
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     window.jumpPressed=false;
