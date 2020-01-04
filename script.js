@@ -3,6 +3,9 @@ window.onresize=function(){
     canvas.height=document.documentElement.clientHeight;
 }
 
+var config=new Object();
+config.light=true;
+
 function keyDownHandler(e){
     let keyCode=e.keyCode;
     if (keyCode==32){
@@ -277,6 +280,58 @@ function drawWorld(){
                     ctx.beginPath();
                     ctx.drawImage(drawbleBlock.texture, x, y, 25, 25);
                     ctx.closePath();
+                    if (config.light){
+                        block_1=checkCords(thisPlayer.x-canvas.width/2+x+12.5-25, thisPlayer.y-canvas.height/2+y-12.5-25);
+                        //дальняяя группа
+                        block_2=checkCords(thisPlayer.x-canvas.width/2+x+12.5-25, thisPlayer.y-canvas.height/2+y-12.5);
+                        //ближняя группа
+                        block_3=checkCords(thisPlayer.x-canvas.width/2+x+12.5-25, thisPlayer.y-canvas.height/2+y-12.5+25);
+                        //дальняя группа
+                        block_4=checkCords(thisPlayer.x-canvas.width/2+x+12.5, thisPlayer.y-canvas.height/2+y-12.5-25);
+                        //ближняя группа 
+                        block_5=checkCords(thisPlayer.x-canvas.width/2+x+12.5, thisPlayer.y-canvas.height/2+y-12.5+25);
+                        //ближняя группа
+                        block_6=checkCords(thisPlayer.x-canvas.width/2+x+12.5+25, thisPlayer.y-canvas.height/2+y-12.5-25);
+                        //дальняя группа
+                        block_7=checkCords(thisPlayer.x-canvas.width/2+x+12.5+25, thisPlayer.y-canvas.height/2+y-12.5);
+                        //ближняя группа
+                        block_8=checkCords(thisPlayer.x-canvas.width/2+x+12.5+25, thisPlayer.y-canvas.height/2+y-12.5+25);
+                        //дальняя группа
+                        block_9=checkCords(thisPlayer.x-canvas.width/2+x+12.5, thisPlayer.y-canvas.height/2+y-12.5);
+                        //центральный блок
+                        block_1=world.world[block_1[0]][block_1[1]];
+                        block_2=world.world[block_2[0]][block_2[1]];
+                        block_3=world.world[block_3[0]][block_3[1]];
+                        block_4=world.world[block_4[0]][block_4[1]];
+                        block_5=world.world[block_5[0]][block_5[1]];
+                        block_6=world.world[block_6[0]][block_6[1]];
+                        block_7=world.world[block_7[0]][block_7[1]];
+                        block_8=world.world[block_8[0]][block_8[1]];
+                        block_9=world.world[block_9[0]][block_9[1]];
+                        if (!blocks[block_9].is_light){
+                            //проверяем ближнюю группу: 2, 4, 5, 7
+                            if (blocks[block_2].is_light || blocks[block_4].is_light || blocks[block_5].is_light || blocks[block_7].is_light){
+                                ctx.beginPath();
+                                ctx.rect(x, y-1, 25, 25.2);
+                                ctx.fillStyle="rgba(0, 0, 0, 0.3)";
+                                ctx.fill();
+                                ctx.closePath();
+                            }else if(blocks[block_1].is_light || blocks[block_3].is_light || blocks[block_6].is_light || blocks[block_8].is_light){
+                                //проверяем дальнюю группу: 1, 3, 6, 8
+                                ctx.beginPath();
+                                ctx.rect(x, y-1, 25, 25.2);
+                                ctx.fillStyle="rgba(0, 0, 0, 0.5)";
+                                ctx.fill();
+                                ctx.closePath();
+                            }else{
+                                ctx.beginPath();
+                                ctx.rect(x, y-1, 25, 25.2);
+                                ctx.fillStyle="rgba(0, 0, 0, 0.9)";
+                                ctx.fill();
+                                ctx.closePath();
+                            }
+                        }
+                    }
                 }
                 countX++;
                 if (countX==25){
@@ -567,7 +622,6 @@ function drawInterface(){
             let help_container=help_items[i];
             help_container=craft_list[help_container];
             help_container=blocks[help_container];
-            console.log(help_container);
             if (thisPlayer.selected_furance==i){
                 ctx.beginPath();
                 ctx.drawImage(help_container.texture, canvas.width-canvas.width*0.7+40, 215, 70, 70);
@@ -1385,11 +1439,12 @@ function player(x, y, texture, hp){
     }
 }
 
-function block(id, texture, touchble, name, recept){
+function block(id, texture, touchble, name, recept, is_light){
     //конструктор объекта блока
     this.id=id;
     this.touchble=touchble;
     this.name=name;
+    this.is_light=is_light;
     if (typeof(recept)=="object"){
         this.recept=recept;
     }
@@ -2028,26 +2083,26 @@ function gameInit(){
     window.destroyPressed=false;
     window.blocks=Array(50);
     //загружаем текстуры блоков
-    blocks[0]=new block(0, null, false);
-    blocks[8]=new block(8, "src/blocks/trunk_bottom.png", false, "Основа дерева", null);
-    blocks[9]=new block(9, "src/blocks/trunk_side.png", false, "Дерево", null);
-    blocks[10]=new block(10, "src/blocks/leaves.png", false, "Листва", null);
-    blocks[1]=new block(1, "src/blocks/grass.png", true, "Трава", null);
-    blocks[2]=new block(2, "src/blocks/dirt.png", true, "Земля", null);
-    blocks[3]=new block(3, "src/blocks/stone.png", true, "Камень", null);
-    blocks[4]=new block(4, "src/blocks/stone_iron.png", true, "Железная руда", null);
-    blocks[5]=new block(5, "src/blocks/stone_silver.png", true, "Серебряная руда", null);
-    blocks[6]=new block(6, "src/blocks/stone_gold.png", true, "Золотая руда", null);
-    blocks[7]=new block(7, "src/blocks/stone_diamond.png", true, "Алмазная руда", null);
-    blocks[11]=new block(11, "src/blocks/oven.png", true, "Печь", [3, 10]);
-    blocks[12]=new block(12, "src/blocks/ore_iron.png", false, "Железо", [4, 1]);
-    blocks[13]=new block(13, "src/blocks/ore_silver.png", false, "Серебро", [5, 1]);
-    blocks[14]=new block(14, "src/blocks/ore_gold.png", false, "Золото", [6, 1]);
-    blocks[15]=new block(15, "src/blocks/ore_diamond.png", false, "Алмаз", [7, 1]);
-    blocks[16]=new block(16, "src/blocks/pick_iron.png", false, "Железная кирка", [12, 3, 9, 2]);
-    blocks[17]=new block(17, "src/blocks/pick_silver.png", false, "Серебряная кирка", [13, 3, 9, 2]);
-    blocks[18]=new block(18, "src/blocks/pick_gold.png", false, "Золотая кирка", [14, 3, 9, 2]);
-    blocks[19]=new block(19, "src/blocks/pick_diamond.png", false, "Серебряная кирка", [15, 3, 9, 2]);
+    blocks[0]=new block(0, null, false, "", null, true);
+    blocks[8]=new block(8, "src/blocks/trunk_bottom.png", false, "Основа дерева", null, false);
+    blocks[9]=new block(9, "src/blocks/trunk_side.png", false, "Дерево", null, false);
+    blocks[10]=new block(10, "src/blocks/leaves.png", false, "Листва", null, true);
+    blocks[1]=new block(1, "src/blocks/grass.png", true, "Трава", null, false);
+    blocks[2]=new block(2, "src/blocks/dirt.png", true, "Земля", null, false);
+    blocks[3]=new block(3, "src/blocks/stone.png", true, "Камень", null, false);
+    blocks[4]=new block(4, "src/blocks/stone_iron.png", true, "Железная руда", null, false);
+    blocks[5]=new block(5, "src/blocks/stone_silver.png", true, "Серебряная руда", null, false);
+    blocks[6]=new block(6, "src/blocks/stone_gold.png", true, "Золотая руда", null, false);
+    blocks[7]=new block(7, "src/blocks/stone_diamond.png", true, "Алмазная руда", null, false);
+    blocks[11]=new block(11, "src/blocks/oven.png", true, "Печь", [3, 10], true);
+    blocks[12]=new block(12, "src/blocks/ore_iron.png", false, "Железо", [4, 1], false);
+    blocks[13]=new block(13, "src/blocks/ore_silver.png", false, "Серебро", [5, 1], false);
+    blocks[14]=new block(14, "src/blocks/ore_gold.png", false, "Золото", [6, 1], false);
+    blocks[15]=new block(15, "src/blocks/ore_diamond.png", false, "Алмаз", [7, 1], false);
+    blocks[16]=new block(16, "src/blocks/pick_iron.png", false, "Железная кирка", [12, 3, 9, 2], false);
+    blocks[17]=new block(17, "src/blocks/pick_silver.png", false, "Серебряная кирка", [13, 3, 9, 2], false);
+    blocks[18]=new block(18, "src/blocks/pick_gold.png", false, "Золотая кирка", [14, 3, 9, 2], false);
+    blocks[19]=new block(19, "src/blocks/pick_diamond.png", false, "Серебряная кирка", [15, 3, 9, 2], false);
 }
 
 function getRandom(min, max) {
